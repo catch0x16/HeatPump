@@ -294,9 +294,9 @@ void HeatPump::setTemperature(float setting) {
     wantedSettings.temperature = lookupByteMapIndex(TEMP_MAP, 16, (int)(setting + 0.5)) > -1 ? setting : TEMP_MAP[0];
   }
   else {
-    setting = setting * 10;
+    setting = setting * 2;
     setting = round(setting);
-    setting = setting / 10;
+    setting = setting / 2;
     wantedSettings.temperature = setting < 10 ? 10 : (setting > 31 ? 31 : setting);
   }
   lastWanted = millis();
@@ -310,9 +310,9 @@ void HeatPump::setRemoteTemperature(float setting) {
   packet[5] = 0x07;
   if(setting > 0) {
     packet[6] = 0x01;
-    setting = setting * 2;
+    setting = setting * 10;
     setting = round(setting);
-    setting = setting / 2;
+    setting = setting / 10;
     float temp1 = 3 + ((setting - 10) * 2);
     packet[7] = (int)temp1;
     float temp2 = (setting * 2) + 128;
