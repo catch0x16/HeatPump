@@ -310,9 +310,9 @@ void HeatPump::setRemoteTemperature(float setting) {
   packet[5] = 0x07;
   if(setting > 0) {
     packet[6] = 0x01;
-    setting = setting * 10;
+    setting = setting * 2;
     setting = round(setting);
-    setting = setting / 10;
+    setting = setting / 2;
     float temp1 = 3 + ((setting - 10) * 2);
     packet[7] = (int)temp1;
     float temp2 = (setting * 2) + 128;
