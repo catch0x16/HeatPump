@@ -294,9 +294,9 @@ void HeatPump::setTemperature(float setting) {
     wantedSettings.temperature = lookupByteMapIndex(TEMP_MAP, 16, (int)(setting + 0.5)) > -1 ? setting : TEMP_MAP[0];
   }
   else {
-    setting = setting * 2;
+    setting = setting * 10;
     setting = round(setting);
-    setting = setting / 2;
+    setting = setting / 10;
     wantedSettings.temperature = setting < 10 ? 10 : (setting > 31 ? 31 : setting);
   }
   lastWanted = millis();
