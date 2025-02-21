@@ -579,10 +579,20 @@ void HeatPump::writePacket(byte *packet, int length) {
   }
 
   if(packetCallback) {
-    packetCallback(packet, length, (char*)"packetSent");
+    packetCallback(packet, length, (char*)"packetSent", "");
   }
   waitForRead = true;
   lastSend = millis();
+}
+
+const char* lookupRecvPacketName(const byte *packet) {
+  const byte dataZero = packet[5];
+  switch (dataZero) {
+    case 0x06:
+      return "status";
+    default:
+      return "unknown";
+  }
 }
 
 int HeatPump::readPacket() {

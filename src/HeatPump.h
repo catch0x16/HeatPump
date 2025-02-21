@@ -215,6 +215,8 @@ class HeatPump
     int    lookupByteMapIndex(const char* valuesMap[], int len, const char* lookupValue);
     int    lookupByteMapIndex(const int valuesMap[], int len, int lookupValue);
 
+    const char* lookupRecvPacketName(const byte byteValue);
+
     bool canSend(bool isInfo);
     bool canRead();
     byte checkSum(byte bytes[], int len);
