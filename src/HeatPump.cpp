@@ -579,7 +579,7 @@ void HeatPump::writePacket(byte *packet, int length) {
   }
 
   if(packetCallback) {
-    packetCallback(packet, length, (char*)"packetSent", "");
+    packetCallback(packet, length, (char*)"packetSent");
   }
   waitForRead = true;
   lastSend = millis();
