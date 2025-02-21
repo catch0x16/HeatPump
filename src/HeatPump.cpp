@@ -585,7 +585,7 @@ void HeatPump::writePacket(byte *packet, int length) {
   lastSend = millis();
 }
 
-static const char* HeatPump::lookupRecvPacketName(const byte *packet) {
+const char* HeatPump::lookupRecvPacketName(const byte *packet) {
   const byte dataZero = packet[5];
   switch (dataZero) {
     case 0x06:

@@ -304,6 +304,6 @@ class HeatPump
     // expert users only!
     void sendCustomPacket(byte data[], int len); 
 
-    static const char* lookupRecvPacketName(const byte *packet);
+    const char* lookupRecvPacketName(const byte *packet);
 };
 #endif
