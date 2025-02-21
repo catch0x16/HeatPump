@@ -705,10 +705,10 @@ int HeatPump::readPacket() {
               }
 
               receivedStatus.runtimeHours = float((data[11] << 16) | (data[12] << 8) | data[13]) / 60;
-              ESP_LOGI("Decoder", "[runtimeHours] %f", receivedStatus.runtimeHours);
 
               if((statusChangedCallback || roomTempChangedCallback) && currentStatus.roomTemperature != receivedStatus.roomTemperature) {
                 currentStatus.roomTemperature = receivedStatus.roomTemperature;
+                currentStatus.runtimeHours = receivedStatus.runtimeHours;
 
                 if(statusChangedCallback) {
                   statusChangedCallback(currentStatus);
@@ -719,6 +719,7 @@ int HeatPump::readPacket() {
                 }
               } else {
                 currentStatus.roomTemperature = receivedStatus.roomTemperature;
+                currentStatus.runtimeHours = receivedStatus.runtimeHours;
               }
 
               return RCVD_PKT_ROOM_TEMP;
@@ -749,24 +750,24 @@ int HeatPump::readPacket() {
             }
 
             case 0x06: { // status
-              ESP_LOGI("Decoder", "[0x06 is status]");
-
               heatpumpStatus receivedStatus;
               receivedStatus.operating = data[4];
               receivedStatus.compressorFrequency = data[3];
               receivedStatus.inputPower = (data[5] << 8) | data[6];
-              ESP_LOGI("Decoder", "[inputPower] %f", receivedStatus.inputPower);
               receivedStatus.kWh = float((data[7] << 8) | data[8]) / 10;
-              ESP_LOGI("Decoder", "[kWh] %f", receivedStatus.kWh);
 
               // callback for status change -- not triggered for compressor frequency at the moment
               if(statusChangedCallback && currentStatus.operating != receivedStatus.operating) {
                 currentStatus.operating = receivedStatus.operating;
                 currentStatus.compressorFrequency = receivedStatus.compressorFrequency;
+                currentStatus.inputPower = receivedStatus.inputPower;
+                currentStatus.kWh = receivedStatus.kWh;
                 statusChangedCallback(currentStatus);
               } else {
                 currentStatus.operating = receivedStatus.operating;
                 currentStatus.compressorFrequency = receivedStatus.compressorFrequency;
+                currentStatus.inputPower = receivedStatus.inputPower;
+                currentStatus.kWh = receivedStatus.kWh;
               }
 
               return RCVD_PKT_STATUS;
