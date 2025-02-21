@@ -658,7 +658,7 @@ int HeatPump::readPacket() {
               receivedSettings.fan         = lookupByteMapValue(FAN_MAP, FAN, 6, data[6]);
               receivedSettings.vane        = lookupByteMapValue(VANE_MAP, VANE, 7, data[7]);
               receivedSettings.wideVane    = lookupByteMapValue(WIDEVANE_MAP, WIDEVANE, 7, data[10] & 0x0F);
-		      wideVaneAdj = (data[10] & 0xF0) == 0x80 ? true : false;
+              wideVaneAdj = (data[10] & 0xF0) == 0x80 ? true : false;
               
               if(settingsChangedCallback && receivedSettings != currentSettings) {
                 currentSettings = receivedSettings;
@@ -687,6 +687,9 @@ int HeatPump::readPacket() {
               } else {
                 receivedStatus.roomTemperature = lookupByteMapValue(ROOM_TEMP_MAP, ROOM_TEMP, 32, data[3]);
               }
+
+              receivedStatus.runtimeHours = float((data[11] << 16) | (data[12] << 8) | data[13]) / 60;
+              ESP_LOGI("Decoder", "[runtimeHours] %f", receivedStatus.runtimeHours);
 
               if((statusChangedCallback || roomTempChangedCallback) && currentStatus.roomTemperature != receivedStatus.roomTemperature) {
                 currentStatus.roomTemperature = receivedStatus.roomTemperature;
@@ -730,9 +733,15 @@ int HeatPump::readPacket() {
             }
 
             case 0x06: { // status
+              ESP_LOGI("Decoder", "[0x06 is status]");
+
               heatpumpStatus receivedStatus;
               receivedStatus.operating = data[4];
               receivedStatus.compressorFrequency = data[3];
+              receivedStatus.inputPower = (data[5] << 8) | data[6];
+              ESP_LOGI("Decoder", "[inputPower] %f", receivedStatus.inputPower);
+              receivedStatus.kWh = float((data[7] << 8) | data[8]) / 10;
+              ESP_LOGI("Decoder", "[kWh] %f", receivedStatus.kWh);
 
               // callback for status change -- not triggered for compressor frequency at the moment
               if(statusChangedCallback && currentStatus.operating != receivedStatus.operating) {

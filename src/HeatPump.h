@@ -74,7 +74,10 @@ struct heatpumpStatus {
   float roomTemperature;
   bool operating; // if true, the heatpump is operating to reach the desired temperature
   heatpumpTimers timers;
-  int compressorFrequency;
+  float compressorFrequency;
+  float inputPower;
+  float kWh;
+  float runtimeHours;
 };
 
 #define MAX_FUNCTION_CODE_COUNT 30
