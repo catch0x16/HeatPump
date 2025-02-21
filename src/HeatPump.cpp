@@ -597,6 +597,8 @@ const char* HeatPump::lookupRecvPacketName(const byte *packet) {
   }
 }
 
+// Additional references
+//  https://github.com/echavet/MitsubishiCN105ESPHome/blob/98a7c603972acfd1c435d2dc1c4414784c3dad38/components/cn105/hp_readings.cpp#L353
 int HeatPump::readPacket() {
   byte header[INFOHEADER_LEN] = {};
   byte data[PACKET_LEN] = {};
@@ -775,7 +777,7 @@ int HeatPump::readPacket() {
               receivedStatus.operating = data[4];
               receivedStatus.compressorFrequency = data[3];
               receivedStatus.inputPower = (data[5] << 8) | data[6];
-              receivedStatus.kWh = float((data[7] << 8) | data[8]) / 10;
+              receivedStatus.kWh = float((data[7] << 8) | data[8]) / 10.0;
 
               currentStatus.operating = receivedStatus.operating;
               currentStatus.compressorFrequency = receivedStatus.compressorFrequency;
