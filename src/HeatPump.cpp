@@ -18,9 +18,6 @@
 */
 #include "HeatPump.h"
 
-#include "espmhp.h"
-using namespace esphome;
-
 // Structures //////////////////////////////////////////////////////////////////
 
 bool operator==(const heatpumpSettings& lhs, const heatpumpSettings& rhs) {
