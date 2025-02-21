@@ -121,7 +121,6 @@ class heatpumpFunctions  {
 class HeatPump
 {
   private:
-    static const int PACKET_LEN = 22;
     static const int PACKET_SENT_INTERVAL_MS = 1000;
     static const int PACKET_INFO_INTERVAL_MS = 2000;
     static const int PACKET_TYPE_DEFAULT = 99;
@@ -234,6 +233,7 @@ class HeatPump
     ROOM_TEMP_CHANGED_CALLBACK_SIGNATURE {nullptr};
 
   public:
+    static const int PACKET_LEN = 22;
     // indexes for INFOMODE array (public so they can be optionally passed to sync())
     const int RQST_PKT_SETTINGS  = 0;
     const int RQST_PKT_ROOM_TEMP = 1;
