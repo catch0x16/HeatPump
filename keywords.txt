@@ -44,7 +44,6 @@ CelsiusToFahrenheit	KEYWORD2
 setSettingsChangedCallback	KEYWORD2
 setStatusChangedCallback	KEYWORD2
 setPacketCallback	KEYWORD2
-setRoomTempChangedCallback	KEYWORD2
 
 sendCustomPacket	KEYWORD2
 

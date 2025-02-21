@@ -34,13 +34,11 @@
 #define SETTINGS_CHANGED_CALLBACK_SIGNATURE std::function<void()> settingsChangedCallback
 #define STATUS_CHANGED_CALLBACK_SIGNATURE std::function<void(heatpumpStatus newStatus)> statusChangedCallback
 #define PACKET_CALLBACK_SIGNATURE std::function<void(byte* packet, unsigned int length, char* packetDirection)> packetCallback
-#define ROOM_TEMP_CHANGED_CALLBACK_SIGNATURE std::function<void(float currentRoomTemperature)> roomTempChangedCallback
 #else
 #define ON_CONNECT_CALLBACK_SIGNATURE void (*onConnectCallback)()
 #define SETTINGS_CHANGED_CALLBACK_SIGNATURE void (*settingsChangedCallback)()
 #define STATUS_CHANGED_CALLBACK_SIGNATURE void (*statusChangedCallback)(heatpumpStatus newStatus)
 #define PACKET_CALLBACK_SIGNATURE void (*packetCallback)(byte* packet, unsigned int length, char* packetDirection)
-#define ROOM_TEMP_CHANGED_CALLBACK_SIGNATURE void (*roomTempChangedCallback)(float currentRoomTemperature)
 #endif
 
 typedef uint8_t byte;
@@ -225,13 +223,13 @@ class HeatPump
     void writePacket(byte *packet, int length);
     void prepareInfoPacket(byte* packet, int length);
     void prepareSetPacket(byte* packet, int length);
+    void buildAndSendRequestPacket(int packetType);
 
     // callbacks
     ON_CONNECT_CALLBACK_SIGNATURE {nullptr};
     SETTINGS_CHANGED_CALLBACK_SIGNATURE {nullptr};
     STATUS_CHANGED_CALLBACK_SIGNATURE {nullptr};
     PACKET_CALLBACK_SIGNATURE {nullptr};
-    ROOM_TEMP_CHANGED_CALLBACK_SIGNATURE {nullptr};
 
   public:
     // indexes for INFOMODE array (public so they can be optionally passed to sync())
@@ -299,7 +297,6 @@ class HeatPump
     void setSettingsChangedCallback(SETTINGS_CHANGED_CALLBACK_SIGNATURE);
     void setStatusChangedCallback(STATUS_CHANGED_CALLBACK_SIGNATURE);
     void setPacketCallback(PACKET_CALLBACK_SIGNATURE);
-    void setRoomTempChangedCallback(ROOM_TEMP_CHANGED_CALLBACK_SIGNATURE); // need to deprecate this, is available from setStatusChangedCallback
 
     // expert users only!
     void sendCustomPacket(byte data[], int len); 
