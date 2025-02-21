@@ -588,6 +588,12 @@ void HeatPump::writePacket(byte *packet, int length) {
 const char* HeatPump::lookupRecvPacketName(const byte *packet) {
   const byte dataZero = packet[5];
   switch (dataZero) {
+    case 0x02:
+      return "settings";
+    case 0x03:
+      return "roomTemp";
+    case 0x05:
+      return "timer";
     case 0x06:
       return "status";
     default:
