@@ -134,8 +134,7 @@ class HeatPump
 
     static const int INFOHEADER_LEN  = 5;
     const byte INFOHEADER[INFOHEADER_LEN]  = {0xfc, 0x42, 0x01, 0x30, 0x10};
-    
- 
+
     static const int INFOMODE_LEN = 6;
     const byte INFOMODE[INFOMODE_LEN] = {
       0x02, // request a settings packet - RQST_PKT_SETTINGS

@@ -753,18 +753,14 @@ int HeatPump::readPacket() {
               receivedStatus.inputPower = (data[5] << 8) | data[6];
               receivedStatus.kWh = float((data[7] << 8) | data[8]) / 10;
 
+
+              currentStatus.operating = receivedStatus.operating;
+              currentStatus.compressorFrequency = receivedStatus.compressorFrequency;
+              currentStatus.inputPower = receivedStatus.inputPower;
+              currentStatus.kWh = receivedStatus.kWh;
               // callback for status change -- not triggered for compressor frequency at the moment
-              if(statusChangedCallback && currentStatus.operating != receivedStatus.operating) {
-                currentStatus.operating = receivedStatus.operating;
-                currentStatus.compressorFrequency = receivedStatus.compressorFrequency;
-                currentStatus.inputPower = receivedStatus.inputPower;
-                currentStatus.kWh = receivedStatus.kWh;
+              if(statusChangedCallback) {
                 statusChangedCallback(currentStatus);
-              } else {
-                currentStatus.operating = receivedStatus.operating;
-                currentStatus.compressorFrequency = receivedStatus.compressorFrequency;
-                currentStatus.inputPower = receivedStatus.inputPower;
-                currentStatus.kWh = receivedStatus.kWh;
               }
 
               return RCVD_PKT_STATUS;
