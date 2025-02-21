@@ -140,9 +140,9 @@ class HeatPump
     const byte INFOMODE[INFOMODE_LEN] = {
       0x02, // request a settings packet - RQST_PKT_SETTINGS
       0x03, // request the current room temp - RQST_PKT_ROOM_TEMP
+      0x06, // request status - RQST_PKT_STATUS
       0x04, // unknown
       0x05, // request the timers - RQST_PKT_TIMERS
-      0x06, // request status - RQST_PKT_STATUS
       0x09  // request standby mode (maybe?) RQST_PKT_STANDBY
     };
 
@@ -209,6 +209,7 @@ class HeatPump
     bool tempMode;
     bool externalUpdate;
     bool wideVaneAdj;
+    bool fastSync = false;
 
     const char* lookupByteMapValue(const char* valuesMap[], const byte byteMap[], int len, byte byteValue);
     int    lookupByteMapValue(const int valuesMap[], const byte byteMap[], int len, byte byteValue);
@@ -256,6 +257,8 @@ class HeatPump
 
     // settings
     heatpumpSettings getSettings();
+    // wanted settings
+    heatpumpSettings getWantedSettings();
     void setSettings(heatpumpSettings settings);
     void setPowerSetting(bool setting);
     bool getPowerSettingBool(); 
@@ -273,6 +276,9 @@ class HeatPump
     const char* getWideVaneSetting();
     void setWideVaneSetting(const char* setting);
     bool getIseeBool();
+    void setFastSync(bool setting);
+    // hacks
+    unsigned long getLastWanted();
 
     // status
     heatpumpStatus getStatus();
