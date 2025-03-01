@@ -597,6 +597,16 @@ const char* HeatPump::lookupRecvPacketName(const byte *packet) {
   }
 }
 
+const char* HeatPump::lookupSendPacketName(const byte *packet) {
+  const byte dataZero = packet[5];
+  switch (dataZero) {
+    case 0x07:
+      return "setRemoteTemperature";
+    default:
+      return "unknown";
+  }
+}
+
 // Additional references
 //  https://github.com/echavet/MitsubishiCN105ESPHome/blob/98a7c603972acfd1c435d2dc1c4414784c3dad38/components/cn105/hp_readings.cpp#L353
 int HeatPump::readPacket() {
