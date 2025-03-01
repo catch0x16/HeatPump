@@ -319,16 +319,21 @@ void HeatPump::setRemoteTemperature(float setting) {
   
   prepareSetPacket(packet, PACKET_LEN);
   
+  21.59 * 2 = 43.18
+  43.18 -> 43
+  43 / 2 = 21.5
+
+  3 + ((21.5 - 10) * 2) = 26
+  (21.5 * 2) + 128 = 171
+
+
   packet[5] = 0x07;
   if(setting > 0) {
     packet[6] = 0x01;
     setting = setting * 2;
     setting = round(setting);
-    setting = setting / 2;
-    float temp1 = 3 + ((setting - 10) * 2);
-    packet[7] = (int)temp1;
-    float temp2 = (setting * 2) + 128;
-    packet[8] = (int)temp2;
+    packet[7] = (byte)(setting - 16);
+    packet[8] = (byte)(setting + 128);
   }
   else {
     packet[6] = 0x00;
@@ -584,6 +589,8 @@ void HeatPump::writePacket(byte *packet, int length) {
 const char* HeatPump::lookupRecvPacketName(const byte *packet) {
   const byte dataZero = packet[5];
   switch (dataZero) {
+    case 0x00:
+      return "ack";
     case 0x02:
       return "settings";
     case 0x03:
@@ -600,8 +607,10 @@ const char* HeatPump::lookupRecvPacketName(const byte *packet) {
 const char* HeatPump::lookupSendPacketName(const byte *packet) {
   const byte dataZero = packet[5];
   switch (dataZero) {
+    case 0x01:
+      return "settings"
     case 0x07:
-      return "setRemoteTemperature";
+      return "remoteTemperature";
     default:
       return "unknown";
   }
