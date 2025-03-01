@@ -318,14 +318,6 @@ void HeatPump::setRemoteTemperature(float setting) {
   byte packet[PACKET_LEN] = {};
   
   prepareSetPacket(packet, PACKET_LEN);
-  
-  21.59 * 2 = 43.18
-  43.18 -> 43
-  43 / 2 = 21.5
-
-  3 + ((21.5 - 10) * 2) = 26
-  (21.5 * 2) + 128 = 171
-
 
   packet[5] = 0x07;
   if(setting > 0) {
