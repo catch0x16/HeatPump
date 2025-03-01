@@ -608,7 +608,7 @@ const char* HeatPump::lookupSendPacketName(const byte *packet) {
   const byte dataZero = packet[5];
   switch (dataZero) {
     case 0x01:
-      return "settings"
+      return "settings";
     case 0x07:
       return "remoteTemperature";
     default:
