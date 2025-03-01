@@ -602,7 +602,7 @@ const char* HeatPump::lookupSendPacketName(const byte *packet) {
     case 0x01:
       return "settings";
     case 0x07:
-      return "remoteTemperature";
+      return "roomTemp";
     default:
       return "unknown";
   }
