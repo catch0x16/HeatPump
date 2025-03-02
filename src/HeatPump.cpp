@@ -600,9 +600,19 @@ const char* HeatPump::lookupSendPacketName(const byte *packet) {
   const byte dataZero = packet[5];
   switch (dataZero) {
     case 0x01:
-      return "settings";
+      return "setSettings";
+    case 0x02:
+      return "getSettings";
+    case 0x03:
+      return "getRoomTemp";
+    case 0x05:
+      return "getTimers";
+    case 0x06:
+      return "getStatus";
     case 0x07:
-      return "roomTemp";
+      return "setRoomTemp";
+    case 0x09:
+      return "getStandBy";
     default:
       return "unknown";
   }
